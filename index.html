@@ -1,272 +1,31 @@
-<!DOCTYPE html>
+<!-- Romantic music -->
 
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Forever Valentine 💖</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: 'Poppins', sans-serif;
-    }
-
-    body {
-      height: 100vh;
-      background: radial-gradient(circle at top, #2b1055, #000);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      overflow: hidden;
-      color: white;
-      cursor: pointer;
-    }
-
-    .container {
-      text-align: center;
-      padding: 20px;
-      animation: fadeIn 2s ease;
-      z-index: 2;
-    }
-
-    h1 {
-      font-size: 2.8rem;
-      text-shadow: 0 0 20px #ff8fab;
-    }
-
-    #typing {
-      font-size: 1.4rem;
-      margin-top: 15px;
-      min-height: 40px;
-      opacity: 0.9;
-    }
-
-    #final {
-      margin-top: 25px;
-      font-size: 1.8rem;
-      color: #ffb3d9;
-      display: none;
-      text-shadow: 0 0 25px #ff4d6d;
-    }
-
-    .buttons {
-      margin-top: 20px;
-      display: none;
-    }
-
-    button {
-      font-size: 1.2rem;
-      padding: 10px 25px;
-      margin: 10px;
-      border: none;
-      border-radius: 25px;
-      cursor: pointer;
-      transition: 0.3s;
-    }
-
-    #yesBtn {
-      background: linear-gradient(45deg,#00ffcc,#00cc99);
-      color: black;
-      box-shadow: 0 0 20px #00ffcc;
-    }
-
-    #noBtn {
-      background: linear-gradient(45deg,#ff416c,#ff4b2b);
-      color: white;
-      box-shadow: 0 0 20px #ff416c;
-    }
-
-    button:hover {
-      transform: scale(1.15);
-    }
-
-    #response {
-      margin-top: 20px;
-      font-size: 1.4rem;
-      color: #ffd6e0;
-      text-shadow: 0 0 20px #ff4d6d;
-    }
-
-    .signature {
-      margin-top: 15px;
-      font-size: 1rem;
-      opacity: 0.8;
-    }
-
-    .hint {
-      margin-top: 20px;
-      font-size: 0.9rem;
-      opacity: 0.6;
-    }
-
-    .heart {
-      position: absolute;
-      font-size: 24px;
-      animation: floatUp 2s ease forwards;
-      pointer-events: none;
-    }
-
-    canvas {
-      position: absolute;
-      top: 0;
-      left: 0;
-      pointer-events: none;
-      z-index: 1;
-    }
-
-    @keyframes floatUp {
-      0% { transform: translateY(0); opacity: 1; }
-      100% { transform: translateY(-160px); opacity: 0; }
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: scale(0.9); }
-      to { opacity: 1; transform: scale(1); }
-    }
-  </style>
-
-</head>
-<body>
-
-<canvas id="fireworks"></canvas>
-
-<div class="container">
-  <h1>Nitya Singh 💖</h1>
-
-  <div id="typing"></div>
-
-  <div id="final">Will you be my forever? 💍✨</div>
-
-  <div class="buttons" id="buttons">
-    <button id="yesBtn">Yes 💖</button>
-    <button id="noBtn">No 💔</button>
-  </div>
-
-  <div id="response"></div>
-
-  <div class="signature">— Vishwajeet Singh 🌙</div>
-
-  <div class="hint">(Tap anywhere 😄)</div>
-</div>
-
-<audio id="music" loop>
-  <source src="https://cdn.pixabay.com/audio/2023/03/06/audio_3e2a1c7d36.mp3">
+<audio id="music" preload="auto" loop>
+  <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_c8e55b14b3.mp3?filename=romantic-love-ambient-110997.mp3" type="audio/mpeg">
 </audio>
 
 <script>
 
-const text = "You are my forever Valentine 💕";
-let index = 0;
-const typingDiv = document.getElementById("typing");
-const finalMsg = document.getElementById("final");
-const buttons = document.getElementById("buttons");
-const response = document.getElementById("response");
 const music = document.getElementById("music");
-
 let musicStarted = false;
 
-function typeEffect() {
-  if (index < text.length) {
-    typingDiv.innerHTML += text.charAt(index);
-    index++;
-    setTimeout(typeEffect, 80);
-  } else {
-    setTimeout(() => {
-      finalMsg.style.display = "block";
-      buttons.style.display = "block";
-    }, 1500);
-  }
-}
-
-typeEffect();
-
-document.addEventListener("click", function(e) {
+// play music on FIRST click anywhere
+document.body.addEventListener("click", function() {
 
   if (!musicStarted) {
-    music.play();
+
+    music.volume = 0.6;
+
+    music.play().then(()=>{
+      console.log("Music started");
+    }).catch(err=>{
+      console.log("Music blocked:", err);
+    });
+
     musicStarted = true;
+
   }
-
-  const heart = document.createElement("div");
-  heart.classList.add("heart");
-  heart.innerHTML = "💖";
-  heart.style.left = e.clientX + "px";
-  heart.style.top = e.clientY + "px";
-  document.body.appendChild(heart);
-
-  setTimeout(() => heart.remove(), 2000);
 
 });
 
-/* fireworks */
-
-const canvas = document.getElementById("fireworks");
-const ctx = canvas.getContext("2d");
-
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
-
-let particles = [];
-
-function createFirework() {
-
-  for (let i = 0; i < 120; i++) {
-
-    particles.push({
-      x: canvas.width / 2,
-      y: canvas.height / 2,
-      vx: (Math.random() - 0.5) * 8,
-      vy: (Math.random() - 0.5) * 8,
-      alpha: 1
-    });
-
-  }
-
-}
-
-function animateFireworks() {
-
-  ctx.clearRect(0,0,canvas.width,canvas.height);
-
-  particles.forEach((p,i)=>{
-
-    p.x += p.vx;
-    p.y += p.vy;
-    p.alpha -= 0.01;
-
-    ctx.fillStyle = "rgba(255,182,193,"+p.alpha+")";
-    ctx.fillRect(p.x,p.y,4,4);
-
-    if(p.alpha <= 0) particles.splice(i,1);
-
-  });
-
-  requestAnimationFrame(animateFireworks);
-
-}
-
-animateFireworks();
-
-document.getElementById("yesBtn").onclick = () => {
-
-  response.innerHTML =
-  "You made me the happiest man alive Nitya 💍❤️";
-
-  setInterval(createFirework,700);
-
-};
-
-document.getElementById("noBtn").onclick = () => {
-
-  response.innerHTML =
-  "I can wait my whole life, if there is even one chance that this no becomes yes ❤️";
-
-};
-
 </script>
-
-</body>
-</html>
